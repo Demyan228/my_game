@@ -26,23 +26,25 @@ class Enemy:
 if __name__ == '__main__':
     pg.init()
     pg.display.set_caption('Forgoten world')
-    size = DW, DH = 400, 400
+    map = """
+            1111111111
+            1121113111
+            1111111131
+            1111111211
+            1113112111
+            1111111111
+            1112111131
+            1111111111
+            1113111311
+            1311131111
+            """
+    map = map.split()
+    MW, MH = len(map), len(map[0])
+    k_size = 40
+    size = DW, DH = MW * k_size, MH * k_size
     screen = pg.display.set_mode(size)
     running = True
-    map = """
-        1111111111
-        1121113111
-        1111111131
-        1111111211
-        1113112111
-        1111111111
-        1112111131
-        1111111111
-        1113111311
-        1311131111
-        """
-    map = map.split()
-    MW, MH = DW / len(map), DH / len(map[0])
+
 
     clock = pg.time.Clock()
     blue = pg.Color("blue")
@@ -71,9 +73,9 @@ if __name__ == '__main__':
         enemys2.append(Enemy(screen, *c, enemy_img2))
 
 
-    grass = pg.transform.scale(pg.image.load(r'pictures_need\tile_0050.png'), (MW, MH))
-    tree = pg.transform.scale(pg.image.load(r'pictures_need\tile_0048.png'), (MW, MH))
-    bush = pg.transform.scale(pg.image.load(r'pictures_need\tile_0036.png'), (MW, MH))
+    grass = pg.transform.scale(pg.image.load(r'pictures_need\tile_0050.png'), (k_size, k_size))
+    tree = pg.transform.scale(pg.image.load(r'pictures_need\tile_0048.png'), (k_size, k_size))
+    bush = pg.transform.scale(pg.image.load(r'pictures_need\tile_0036.png'), (k_size, k_size))
     background = {"1": grass, "2": tree, "3": bush}
 
 
@@ -84,7 +86,7 @@ if __name__ == '__main__':
         screen.fill(white)
         for i in range(len(map)):
             for j in range(len(map[0])):
-                cords = (MW * i, MH * j)
+                cords = (k_size * i, k_size * j)
                 screen.blit(background[map[i][j]], cords)
         for e in enemys1:
             e.draw()

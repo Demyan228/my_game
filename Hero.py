@@ -11,6 +11,9 @@ class Hero(pg.sprite.Sprite):
     def update(self):
         pass
 
+    def move(self, x, y):
+        self.rect.x += x
+        self.rect.y += y
 
 def create_hero(path):
     hi = pg.image.load(path)

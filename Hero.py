@@ -7,6 +7,7 @@ class Hero(pg.sprite.Sprite):
         self.image = img
         self.rect = self.image.get_rect(
             center=(x, y))
+        self.power = 10
 
     def update(self):
         pass
@@ -14,6 +15,9 @@ class Hero(pg.sprite.Sprite):
     def move(self, x, y):
         self.rect.x += x
         self.rect.y += y
+
+    def punch(self, enemy):
+        enemy.punch(self.power)
 
 def create_hero(path):
     hi = pg.image.load(path)

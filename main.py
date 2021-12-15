@@ -3,6 +3,7 @@ import confiq
 from Map import Map
 from Hero import hero
 from Enemy import enemyes
+from Effect import effects
 
 
 def move():
@@ -25,7 +26,6 @@ def move():
     speed_x_hero = 0
     speed_y_hero = 0
 
-    print(h_x, map.x + map.DW)
 
 
     if h_x <= map.x or h_x + confiq.sprite_w >= map.x + map.DW:
@@ -41,8 +41,9 @@ def move():
 
     hero.move(speed_x_hero, speed_y_hero)
 
-    for i in enemyes.sprites():
-        i.move(speed_x, speed_y)
+    for o in objects:
+        for i in o.sprites():
+            i.move(speed_x, speed_y)
     map.move(speed_x, speed_y)
 
 if __name__ == '__main__':
@@ -52,24 +53,32 @@ if __name__ == '__main__':
     clock = pg.time.Clock()
     map = Map()
     screen = confiq.screen
+    objects = [enemyes, effects]
 
 
     while running:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
+            if event.type == pg.MOUSEBUTTONDOWN:
+                for e in enemyes:
+                    if pg.sprite.collide_rect(hero, e):
+                        hero.punch(e)
 
         move()
 
         screen.fill(pg.Color("white"))
 
         map.draw(screen)
-        enemyes.draw(screen)
+
+        for o in objects:
+            o.draw(screen)
         screen.blit(hero.image, hero.rect)
 
         pg.display.flip()
         clock.tick(60)
 
         hero.update()
-        enemyes.update()
+        for o in objects:
+            o.update()
     pg.quit()

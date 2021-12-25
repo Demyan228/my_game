@@ -1,28 +1,27 @@
 import pygame as pg
 import confiq
+from confiq import map, map_size, map_cell_w, map_cell_h, c_size, background
 
-class Map:
-    def __init__(self):
-        self.map = confiq.map
+class Map(pg.sprite.Sprite):
+    def __init__(self, x, y, img, group):
+        super().__init__(confiq.all_sprites, group)
+        self.image = img
+        self.rect = self.image.get_rect(x=x, y=y)
 
-        self.MW, self.MH = confiq.MW, confiq.MH
-        self.k_size = confiq.k_size
-        self.size = self.DW, self.DH = self.MW * self.k_size, self.MH * self.k_size
-        self.x, self.y = -confiq.spawn_x * self.k_size, -confiq.spawn_y * self.k_size
-        grass = pg.transform.scale(pg.image.load(r'pictures_need\tile_0050.png'),
-                                   (self.k_size, self.k_size))
-        tree = pg.transform.scale(pg.image.load(r'pictures_need\tile_0048.png'),
-                                  (self.k_size, self.k_size))
-        bush = pg.transform.scale(pg.image.load(r'pictures_need\tile_0036.png'),
-                                  (self.k_size, self.k_size))
-        self.background = {"1": grass, "2": tree, "3": bush}
+    def update(self):
+        pass
 
-    def draw(self, screen):
-        for i in range(len(self.map)):
-            for j in range(len(self.map[0])):
-                cords = (self.x + self.k_size * j, self.y + self.k_size * i)
-                screen.blit(self.background[self.map[i][j]], cords)
 
-    def move(self, speed_x, speed_y):
-        self.x += speed_x
-        self.y += speed_y
+def build_map():
+    surf = pg.Surface(map_size)
+    for i in range(map_cell_w):
+        for j in range(map_cell_h):
+            cords = c_size * j, c_size * i
+            surf.blit(background[map[i][j]], cords)
+    return surf
+
+
+map_img = build_map()
+map_x, map_y = -confiq.spawn_x * c_size, -confiq.spawn_y * c_size
+map_group = pg.sprite.Group()
+map = Map(map_x, map_y, map_img, map_group)

@@ -4,7 +4,7 @@ import confiq
 
 class Effect(pg.sprite.Sprite):
     def __init__(self, x, y, img, group):
-        pg.sprite.Sprite.__init__(self)
+        super().__init__(confiq.all_sprites, group)
         self.image = img
         self.rect = self.image.get_rect(
             center=(x, y))
@@ -22,7 +22,7 @@ class Effect(pg.sprite.Sprite):
 
 
 
-effects = pg.sprite.Group()
+effect_group = pg.sprite.Group()
 punch_effect_path = r'pictures_need\tile_0005.png'
 punch_effect = pg.image.load(punch_effect_path)
 punch_effect.set_colorkey(pg.Color("black"))

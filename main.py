@@ -6,6 +6,7 @@ from Hero import hero, hero_group
 from Enemy import enemy_group
 from Effect import effect_group
 from Camera import Camera
+from Hitpoints import hp_group
 
 
 
@@ -37,6 +38,7 @@ if __name__ == '__main__':
 
         map_group.draw(screen)
         enemy_group.draw(screen)
+        hp_group.draw(screen)
         effect_group.draw(screen)
         hero_group.draw(screen)
 

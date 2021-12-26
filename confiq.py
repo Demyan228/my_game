@@ -25,6 +25,10 @@ map = """
         11131113111111111111
         13111311111121131111
         """
+
+hp_w = 40
+hp_h = 10
+
 map = map.split()
 map_cell_w, map_cell_h = len(map), len(map[0])
 c_size = 40
@@ -44,3 +48,4 @@ tree = pg.transform.scale(pg.image.load(r'pictures_need\tile_0048.png'),
 bush = pg.transform.scale(pg.image.load(r'pictures_need\tile_0036.png'),
                                   (c_size, c_size))
 background = {"1": grass, "2": tree, "3": bush}
+

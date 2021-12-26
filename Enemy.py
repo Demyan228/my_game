@@ -1,6 +1,7 @@
 import pygame as pg
 import confiq
 import Effect
+from Hitpoints import Hitpoints
 from random import randint
 
 class Enemy(pg.sprite.Sprite):
@@ -11,15 +12,15 @@ class Enemy(pg.sprite.Sprite):
         self.rect = self.image.get_rect(
             center=(x, y))
         self.spawn_hp = hp * 1
-        self.init()
         self.rect.x = x
         self.rect.y = y
+        self.init()
 
     def init(self):
-        self.hp = self.spawn_hp * 1
         self.dead = False
         self.timer = 0
         self.image = self.spawn_img
+        self.hp = Hitpoints(self.rect.centerx, self.rect.centery - 15, self.spawn_hp)
 
 
     def update(self):
@@ -35,9 +36,10 @@ class Enemy(pg.sprite.Sprite):
 
     def punch(self, power):
         Effect.Effect(self.rect.centerx, self.rect.centery, Effect.punch_effect, Effect.effect_group)
-        self.hp -= power
-        if self.hp <= 0:
+        self.hp.punch(power)
+        if self.hp.hp <= 0:
             self.dead = True
+            self.hp.kill()
             self.image = pg.Surface((0, 0))
 
 

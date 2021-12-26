@@ -8,7 +8,6 @@ class Effect(pg.sprite.Sprite):
         self.image = img
         self.rect = self.image.get_rect(
             center=(x, y))
-        self.add(group)
         self.punch_time = time()
 
     def update(self):

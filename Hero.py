@@ -14,13 +14,13 @@ class Hero(pg.sprite.Sprite):
         key = pg.key.get_pressed()
 
         if key[pg.K_w]:
-            self.rect.y -= self.speed
+            self.rect.y = max(0, self.rect.y - self.speed)
         if key[pg.K_s]:
-            self.rect.y += self.speed
+            self.rect.y = min(confiq.DH - confiq.sprite_h, self.rect.y + self.speed)
         if key[pg.K_a]:
-            self.rect.x -= self.speed
+            self.rect.x = max(0, self.rect.x - self.speed)
         if key[pg.K_d]:
-            self.rect.x += self.speed
+            self.rect.x = min(confiq.DW - confiq.sprite_w, self.rect.x + self.speed)
 
     def move(self, x, y):
         self.rect.x += x

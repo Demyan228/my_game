@@ -1,8 +1,11 @@
 import pygame as pg
 
+# pygame
 pg.init()
+pg.font.init()
 pg.display.set_caption('Forgoten world')
 
+# map
 map = """
         11111111111113111111
         11211131111131111211
@@ -26,21 +29,48 @@ map = """
         13111311111121131111
         """
 
-hp_w = 40
-hp_h = 10
-
 map = map.split()
 map_cell_w, map_cell_h = len(map), len(map[0])
 c_size = 40
 map_size = map_w, map_h = map_cell_w * c_size, map_cell_h * c_size
 
-spawn_x, spawn_y = 10, 10
+
+
+# camera
 CW, CH = 10, 10
 size = DW, DH = CW * c_size, CH * c_size
-sprite_w, sprite_h = 30, 30
 screen = pg.display.set_mode(size)
+
+
+
+# hero
+spawn_x, spawn_y = 10, 10
+hero_hp = 100
+hero_hp_w = 100
+hero_hp_h = 25
+hero_hp_x = DW - hero_hp_w // 2 - 5
+hero_hp_y = 20
+hero_lvl_w = 100
+hero_lvl_h = 25
+hero_lvl_x = DW - hero_lvl_w // 2 - 5
+hero_lvl_y = hero_hp_y + hero_hp_h + 10
+hero_xp = 10
+hero_xp_cof = 1.5
+hero_power = 10
+power_from_lvl = 2
+
+
+# enemy
+e_hp_w = 40
+e_hp_h = 10
+
+
+# sprites
+sprite_w, sprite_h = 30, 30
 all_sprites = pg.sprite.Group()
 
+
+# pictures
 grass = pg.transform.scale(pg.image.load(r'pictures_need\tile_0050.png'),
                                    (c_size, c_size))
 tree = pg.transform.scale(pg.image.load(r'pictures_need\tile_0048.png'),

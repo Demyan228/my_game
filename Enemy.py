@@ -1,12 +1,13 @@
 import pygame as pg
 import confiq
 import Effect
-from Hitpoints import Hitpoints
+from Stats import Hitpoints
 from random import randint
 
 class Enemy(pg.sprite.Sprite):
-    def __init__(self, x, y, img, group, hp):
+    def __init__(self, x, y, img, xp, hp, group):
         super().__init__(confiq.all_sprites, group)
+        self.xp = xp
         self.spawn_img = img
         self.image = img
         self.rect = self.image.get_rect(
@@ -20,7 +21,8 @@ class Enemy(pg.sprite.Sprite):
         self.dead = False
         self.timer = 0
         self.image = self.spawn_img
-        self.hp = Hitpoints(self.rect.centerx, self.rect.centery - 15, self.spawn_hp)
+        self.hp = Hitpoints(self.rect.centerx, self.rect.centery - 15,
+                            confiq.e_hp_w, confiq.e_hp_h, self.spawn_hp)
 
 
     def update(self):
@@ -34,10 +36,13 @@ class Enemy(pg.sprite.Sprite):
         self.rect.x += x
         self.rect.y += y
 
-    def punch(self, power):
+    def punch(self, hero, power):
+        if self.dead:
+            return
         Effect.Effect(self.rect.centerx, self.rect.centery, Effect.punch_effect, Effect.effect_group)
         self.hp.punch(power)
         if self.hp.hp <= 0:
+            hero.get_xp(self.xp)
             self.dead = True
             self.hp.kill()
             self.image = pg.Surface((0, 0))
@@ -45,7 +50,7 @@ class Enemy(pg.sprite.Sprite):
 
 
 
-def create_group_enemyes(path, cords, group, hp):
+def create_group_enemyes(path, cords, group, hp, xp):
     ei = pg.image.load(path)
     ei.set_colorkey(pg.Color("green"))
     enemy_img = pg.transform.scale(ei, (confiq.sprite_w, confiq.sprite_h))
@@ -53,15 +58,15 @@ def create_group_enemyes(path, cords, group, hp):
         x, y = c
         x = x - confiq.spawn_x * confiq.c_size
         y = y - confiq.spawn_y * confiq.c_size
-        Enemy(x, y, enemy_img, group, hp)
+        Enemy(x, y, enemy_img, group, hp, xp)
 
 
 enemy_group = pg.sprite.Group()
 
 enemyes1_path = r'pictures_need\enemy1.png'
 cords_for_e1 = [(280, 280), (240, 240), (280, 200)]
-create_group_enemyes(enemyes1_path, cords_for_e1, enemy_group, 100)
+create_group_enemyes(enemyes1_path, cords_for_e1, 2, 100, enemy_group)
 
 enemyes2_path = r'pictures_need\enemy2.png'
 cords_for_e2 = [(300, 40), (280, 80)]
-create_group_enemyes(enemyes2_path, cords_for_e2, enemy_group, 200)
+create_group_enemyes(enemyes2_path, cords_for_e2, 4, 200, enemy_group)

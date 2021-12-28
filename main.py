@@ -23,7 +23,7 @@ if __name__ == '__main__':
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
-            if event.type == pg.MOUSEBUTTONDOWN:
+            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
                 for e in enemy_group:
                     if pg.sprite.collide_rect(hero, e):
                         hero.punch(e)

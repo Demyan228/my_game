@@ -5,6 +5,24 @@ pg.init()
 pg.font.init()
 pg.display.set_caption('Forgoten world')
 
+
+def draw_text(surf, x, y, text, font_size, font_color):
+    font = pg.font.Font(None, font_size)
+    text_coord = y
+    for line in text:
+        string_rendered = font.render(line, 1, font_color)
+        intro_rect = string_rendered.get_rect()
+        text_coord += 10
+        intro_rect.top = text_coord
+        intro_rect.x = x
+        text_coord += intro_rect.height
+        surf.blit(string_rendered, intro_rect)
+
+def check_surf_collide(x1, y1, surf : pg.Surface, x2, y2):
+    rect = pg.rect.Rect(x1, y1, *surf.get_size())
+    return rect.collidepoint(x2, y2)
+
+
 # map
 map = """
         11111111111113111111
@@ -31,7 +49,7 @@ map = """
 
 map = map.split()
 map_cell_w, map_cell_h = len(map), len(map[0])
-c_size = 40
+c_size = 60
 map_size = map_w, map_h = map_cell_w * c_size, map_cell_h * c_size
 
 
@@ -64,18 +82,53 @@ power_from_lvl = 2
 e_hp_w = 40
 e_hp_h = 10
 
+# inventory
+view_area_x = 0
+view_area_y = 0
+view_area_w = DW // 3
+view_area_h = DH * 1
+view_area_img_scale = (100 , 100)
+view_area_color = pg.Color("white")
+view_area_text_color = pg.Color("black")
+equip_void = DW // 10
+equip_btn_w = DW // 7
+equip_btn_h = DH // 20
+equip_btn_x = view_area_x + view_area_w // 2 - equip_btn_w // 2
+equip_btn_y = DH - DH // 5
+unequip_btn_w = equip_btn_w * 1
+unequip_btn_h = equip_btn_h * 1
+unequip_btn_x = equip_btn_x * 1
+unequip_btn_y = equip_btn_y + DH // 15
+
+closed_inv_w = 50
+closed_inv_h = 50
+closed_inv_x = DW - closed_inv_w
+closed_inv_y = 300
+opened_inv_w = 5
+opened_inv_h = 7
+inv_item_w = DW // 12
+inv_item_h = DH // 12
+inv_equip_circle_r = inv_item_w // 7
+inv_equip_circle_x = inv_item_w - inv_equip_circle_r
+inv_equip_circle_y = inv_equip_circle_r * 1
+inv_x = view_area_w + view_area_x + DW // 15
+inv_y = DH // 10
+inv_w = DW - inv_x
+inv_h = DH - inv_y
+inv_void_w = 20
+inv_void_h = 20
+inv_color = pg.Color("black")
+inv_item_color = pg.Color("white")
+
+
 
 # sprites
 sprite_w, sprite_h = 30, 30
 all_sprites = pg.sprite.Group()
 
-
-# pictures
-grass = pg.transform.scale(pg.image.load(r'pictures_need\tile_0050.png'),
-                                   (c_size, c_size))
-tree = pg.transform.scale(pg.image.load(r'pictures_need\tile_0048.png'),
-                                  (c_size, c_size))
-bush = pg.transform.scale(pg.image.load(r'pictures_need\tile_0036.png'),
-                                  (c_size, c_size))
-background = {"1": grass, "2": tree, "3": bush}
-
+#
+close_w = DW // 20
+close_h = close_w * 1
+close_path = r'pictures_need\tile_0010.png'
+close_img = pg.image.load(close_path)
+close_img = pg.transform.scale(close_img, (close_w, close_h))

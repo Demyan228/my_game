@@ -86,7 +86,7 @@ class Level(pg.sprite.Sprite):
 
     def get_xp(self, xp):
         if self.xp + xp >= self.max_xp:
-            self.xp = self.xp + xp - self.max_xp
+            self.xp = (self.xp + xp) % self.max_xp
             self.max_xp *= self.max_xp_cof
             self.lvl += 1
         else:

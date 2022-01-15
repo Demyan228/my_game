@@ -1,6 +1,7 @@
 import pygame as pg
 import confiq
 from confiq import all_sprites
+from Inventory import inventory
 from Map import map, map_group
 from Hero import hero, hero_group
 from Enemy import enemy_group
@@ -24,6 +25,7 @@ if __name__ == '__main__':
             if event.type == pg.QUIT:
                 running = False
             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                inventory.click()
                 for e in enemy_group:
                     if pg.sprite.collide_rect(hero, e):
                         hero.punch(e)
@@ -42,6 +44,7 @@ if __name__ == '__main__':
         hp_group.draw(screen)
         lvl_group.draw(screen)
         hero_group.draw(screen)
+        inventory.draw(screen)
 
         pg.display.flip()
         clock.tick(60)

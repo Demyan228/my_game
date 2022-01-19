@@ -1,9 +1,13 @@
 import pygame as pg
+import sys
+from time import time
 
 # pygame
 pg.init()
 pg.font.init()
 pg.display.set_caption('Forgoten world')
+FPS = 60
+clock = pg.time.Clock()
 
 
 def load_level(filename):
@@ -32,10 +36,59 @@ def check_surf_collide(x1, y1, surf : pg.Surface, x2, y2):
     rect = pg.rect.Rect(x1, y1, *surf.get_size())
     return rect.collidepoint(x2, y2)
 
+def terminate():
+    pg.quit()
+    sys.exit()
+
+def start_screen():
+    intro_text = ["FORGOTTEN WORLD", "",
+                  "Тебе нужно исследовать карту и убивать монстров",
+                  "Бить монстров можно на левую кнопку мыши",
+                  "Есть определенный шанс выпадения предмета с монстра",
+                  "Предметы улучшают твои статы",
+                  "Если тебе выпал предмет, он перемещается в инвентарь",
+                  "Ты можешь открыть инвентарь нажав на рюкзак",
+                  "Нажми на предмет и справа покажется инфа о нем",
+                  "Экипировать предмет можно нажав на кнопку equip",
+                  f"Для прохождения игры тебе нужно достичь {end_lvl} уровня"]
+
+    fon = pg.Surface((DW, DH))
+    fon.fill(pg.Color("black"))
+    screen.blit(fon, (0, 0))
+    draw_text(screen, 10, 50, intro_text, 30, pg.Color("white"))
+    while True:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                terminate()
+            elif event.type == pg.KEYDOWN or \
+                    event.type == pg.MOUSEBUTTONDOWN:
+                return  # начинаем игру
+        pg.display.flip()
+        clock.tick(FPS)
+
+def end_screen():
+    intro_text = ["YOU WIN", "",
+                  "Поздровляю с победой",
+                  "Вы можете продолжить играть"]
+
+    fon = pg.Surface((DW, DH))
+    fon.fill(pg.Color("black"))
+    screen.blit(fon, (0, 0))
+    draw_text(screen, 10, 50, intro_text, 40, pg.Color("white"))
+    t = time()
+    while True:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                terminate()
+            elif event.type == pg.KEYDOWN or \
+                    event.type == pg.MOUSEBUTTONDOWN and time() - t > 1:
+                return  # начинаем игру
+        pg.display.flip()
+        clock.tick(FPS)
+
 
 # map
 map = load_level("location1.txt") + load_level("location2.txt")
-print(map)
 
 map_cell_w, map_cell_h = len(map[0]), len(map)
 c_size = 60
@@ -51,6 +104,8 @@ screen = pg.display.set_mode(size)
 
 
 # hero
+end_lvl = 1
+game_over = False
 spawn_x, spawn_y = 10, 10
 hero_hp = 100
 hero_hp_w = 100

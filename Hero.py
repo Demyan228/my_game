@@ -45,6 +45,9 @@ class Hero(pg.sprite.Sprite):
 
     def get_xp(self, xp):
         self.lvl.get_xp(xp)
+        if not confiq.game_over and self.lvl.lvl >= confiq.end_lvl:
+            confiq.end_screen()
+            confiq.game_over = True
 
     def get_item(self, item):
         self.inv.add_item(item)

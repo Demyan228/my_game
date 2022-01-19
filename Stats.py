@@ -26,7 +26,7 @@ class Hitpoints(pg.sprite.Sprite):
 
     def create_img(self):
         image = pg.Surface((self.hp_w, self.hp_h))
-        image.fill((255, 255, 255))
+        image.fill((0, 0, 0))
         image.blit(self.create_hp_img(), (2, 2))
         return image
 
@@ -66,7 +66,7 @@ class Level(pg.sprite.Sprite):
 
     def create_img(self):
         image = pg.Surface((self.lvl_w, self.lvl_h))
-        image.fill((255, 255, 255))
+        image.fill((0, 0, 0))
         image.blit(self.create_lvl_img(), (2, 2))
         font = pg.font.Font(None, 30)
         string_rendered = font.render(str(self.lvl), 1, pg.Color('grey'))

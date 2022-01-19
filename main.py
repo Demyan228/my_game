@@ -1,4 +1,5 @@
 import pygame as pg
+import sys
 import confiq
 from confiq import all_sprites
 from Inventory import inventory
@@ -11,19 +12,54 @@ from Stats import hp_group, lvl_group
 
 
 
+
+def terminate():
+    pg.quit()
+    sys.exit()
+
+def start_screen():
+    intro_text = ["FORGOTTEN WORLD", "",
+                  "Тебе нужно исследовать карту и убивать монстров",
+                  "Бить монстров можно на левую кнопку мыши",
+                  "Есть определенный шанс выпадения предмета с монстра",
+                  "Предметы улучшают твои статы",
+                  "Если тебе выпал предмет, он перемещается в инвентарь",
+                  "Ты можешь открыть инвентарь нажав на рюкзак",
+                  "Нажми на предмет и справа покажется инфа о нем",
+                  "Экипировать предмет можно нажав на кнопку equip"]
+
+    fon = pg.Surface((confiq.DW, confiq.DH))
+    fon.fill(pg.Color("black"))
+    screen.blit(fon, (0, 0))
+    confiq.draw_text(screen, 10, 50, intro_text, 30, pg.Color("white"))
+
+    while True:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                terminate()
+            elif event.type == pg.KEYDOWN or \
+                    event.type == pg.MOUSEBUTTONDOWN:
+                return  # начинаем игру
+        pg.display.flip()
+        clock.tick(FPS)
+
+
+
 if __name__ == '__main__':
 
-    running = True
 
+    FPS = 60
     clock = pg.time.Clock()
     camera = Camera()
     screen = confiq.screen
 
+    start_screen()
 
-    while running:
+
+    while True:
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                running = False
+                terminate()
             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
                 inventory.click()
                 for e in enemy_group:
@@ -47,8 +83,7 @@ if __name__ == '__main__':
         inventory.draw(screen)
 
         pg.display.flip()
-        clock.tick(60)
+        clock.tick(FPS)
 
         for sprite in all_sprites:
             sprite.update()
-    pg.quit()

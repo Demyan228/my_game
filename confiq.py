@@ -6,6 +6,16 @@ pg.font.init()
 pg.display.set_caption('Forgoten world')
 
 
+def load_level(filename):
+    filename = "Levels/" + filename
+    # читаем уровень, убирая символы перевода строки
+    with open(filename, 'r') as mapFile:
+        level_map = [line.strip() for line in mapFile]
+
+
+    return level_map
+
+
 def draw_text(surf, x, y, text, font_size, font_color):
     font = pg.font.Font(None, font_size)
     text_coord = y
@@ -24,31 +34,10 @@ def check_surf_collide(x1, y1, surf : pg.Surface, x2, y2):
 
 
 # map
-map = """
-        11111111111113111111
-        11211131111131111211
-        11111111311311211111
-        11111112111311111111
-        11131121111111131111
-        11112111211121111311
-        11121111311111121111
-        11111111111211111131
-        11131113111111122111
-        13111311111121112111
-        11111111111111211111
-        11211131112111311111
-        11111111311111211111
-        11111112111211111111
-        11131121121121112111
-        11111111111131111111
-        11121111311111311111
-        11111111111112311111
-        11131113111111111111
-        13111311111121131111
-        """
+map = load_level("location1.txt") + load_level("location2.txt")
+print(map)
 
-map = map.split()
-map_cell_w, map_cell_h = len(map), len(map[0])
+map_cell_w, map_cell_h = len(map[0]), len(map)
 c_size = 60
 map_size = map_w, map_h = map_cell_w * c_size, map_cell_h * c_size
 

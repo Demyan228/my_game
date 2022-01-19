@@ -81,7 +81,7 @@ def end_screen():
             if event.type == pg.QUIT:
                 terminate()
             elif event.type == pg.KEYDOWN or \
-                    event.type == pg.MOUSEBUTTONDOWN and time() - t > 1:
+                    event.type == pg.MOUSEBUTTONDOWN and time() - t > 3:
                 return  # начинаем игру
         pg.display.flip()
         clock.tick(FPS)
@@ -104,7 +104,7 @@ screen = pg.display.set_mode(size)
 
 
 # hero
-end_lvl = 1
+end_lvl = 5
 game_over = False
 spawn_x, spawn_y = 10, 10
 hero_hp = 100

@@ -9,6 +9,20 @@ pg.display.set_caption('Forgoten world')
 FPS = 60
 clock = pg.time.Clock()
 
+def move_to(x, y, speed):
+    x_z, y_z = -1, -1
+    if x < 0:
+        x_z = 1
+    if y < 0:
+        y_z = 1
+    x, y = abs(x), abs(y)
+    if x == 0:
+        return 0, x_z * speed
+    z = y / x
+    move_x = (speed ** 2 / (z ** 2 + 1)) ** 0.5
+    move_y = move_x * z
+    return x_z * round(move_x), y_z * round(move_y)
+
 
 def load_level(filename):
     filename = "Levels/" + filename
@@ -125,6 +139,7 @@ power_from_lvl = 2
 # enemy
 e_hp_w = 40
 e_hp_h = 10
+e_speed = 2
 
 # inventory
 view_area_x = 0
@@ -170,6 +185,23 @@ inv_item_color = pg.Color("white")
 sprite_w, sprite_h = 30, 30
 all_sprites = pg.sprite.Group()
 
+
+# skills
+wave_r = DW // 20
+max_r = DW // 3
+wave_w = DW // 40
+wave_speed = 1
+wave_dmg = 20
+
+
+fireball_dmg = 20
+fireball_w = DW // 15
+fireball_h = DH // 15
+fireball_speed = 3
+fireball_path = r'pictures_need\fireball.png'
+fireball_img = pg.image.load(fireball_path)
+fireball_img = pg.transform.scale(fireball_img, (fireball_w, fireball_h))
+fireball_img.set_colorkey((255, 255, 255))
 #
 close_w = DW // 20
 close_h = close_w * 1

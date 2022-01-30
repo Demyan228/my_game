@@ -9,12 +9,12 @@ from Enemy import enemy_group
 from Effect import effect_group
 from Camera import Camera
 from Stats import hp_group, lvl_group
+from Skills import skills_group
 
 
 
 
 if __name__ == '__main__':
-
 
     camera = Camera()
     screen = confiq.screen
@@ -43,13 +43,16 @@ if __name__ == '__main__':
         map_group.draw(screen)
         enemy_group.draw(screen)
         effect_group.draw(screen)
+        hero_group.draw(screen)
+        skills_group.draw(screen)
         hp_group.draw(screen)
         lvl_group.draw(screen)
-        hero_group.draw(screen)
         inventory.draw(screen)
+
 
         pg.display.flip()
         confiq.clock.tick(confiq.FPS)
 
         for sprite in all_sprites:
             sprite.update()
+

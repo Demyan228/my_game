@@ -15,6 +15,7 @@ class Hero(pg.sprite.Sprite):
             center=(x, y))
         self.power = power * 1
         self.speed = 2
+        self.mask = pg.mask.from_surface(self.image)
         self.max_hp = max_hp
         self.inv = inv
         self.hp = Hitpoints(hero_hp_x, hero_hp_y, hero_hp_w,
@@ -41,7 +42,7 @@ class Hero(pg.sprite.Sprite):
 
     def punch(self, enemy):
         all_power = self.power + power_from_lvl * self.lvl.lvl + self.inv.get_equip_characteristics().get("power", 0)
-        enemy.punch(self, all_power)
+        enemy.get_punch(self, all_power)
 
     def get_xp(self, xp):
         self.lvl.get_xp(xp)
@@ -51,6 +52,12 @@ class Hero(pg.sprite.Sprite):
 
     def get_item(self, item):
         self.inv.add_item(item)
+
+    def get_pos(self):
+        return self.rect.center
+
+    def get_punch(self, dmg):
+        self.hp.punch(dmg)
 
 def create_hero(path, group, hero_hp, power, inv):
     hi = pg.image.load(path)

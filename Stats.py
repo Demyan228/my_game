@@ -39,8 +39,6 @@ class Hitpoints(pg.sprite.Sprite):
         self.rect.y += y
 
     def punch(self, power):
-        if self.hp - power <= 0:
-            exit()
         self.hp = max(0, self.hp - power)
         self.image = self.create_img()
 

@@ -58,6 +58,9 @@ class Hero(pg.sprite.Sprite):
 
     def get_punch(self, dmg):
         self.hp.punch(dmg)
+        if self.hp.hp <= 0:
+            print("мне лень с этим что то делать поэтому ты сдох")
+            exit()
 
 def create_hero(path, group, hero_hp, power, inv):
     hi = pg.image.load(path)
